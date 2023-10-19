@@ -53,12 +53,12 @@ def crop_images(json_product_recongnition):
             # Crop image
             im_c = im.crop((x_min, y_min, x_max, y_max))
 
-            # TO DO: Find a way to upload directly to to GCS
             # Save cropped images in GCS
-            im_c.save(im_name+'-'+str(im_counter)+im_ext)
+            b = BytesIO()
+            im_c.save(b, 'jpeg')
+            im_c.close()
             blob_c = bucket.blob('crop/'+im_name+'-'+str(im_counter)+im_ext)
-            blob_c.upload_from_filename(im_name+'-'+str(im_counter)+im_ext)
-            os.remove(im_name+'-'+str(im_counter)+im_ext)
+            blob_c.upload_from_string(b.getvalue(), content_type='image/jpeg')
 
             im_counter = im_counter + 1
 
