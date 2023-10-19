@@ -57,7 +57,7 @@ def crop_images(json_product_recongnition):
             b = BytesIO()
             im_c.save(b, 'jpeg')
             im_c.close()
-            blob_c = bucket.blob('crop/'+im_name+'-'+str(im_counter)+im_ext)
+            blob_c = bucket.blob(image_path + 'crop/' + im_name + '-' + str(im_counter) + im_ext)
             blob_c.upload_from_string(b.getvalue(), content_type='image/jpeg')
 
             im_counter = im_counter + 1
